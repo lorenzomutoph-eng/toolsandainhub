@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notion Links Launcher — Cloud</title>
+  <meta name="description" content="Dashboard elegante per i tuoi link, caricati da links.json su GitHub Pages." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-900: #0b1020;
+      --card-800: #0e1430cc;
+      --card-700: #15204acc;
+      --text-100: #e7ecff;
+      --text-300: #c0c7ff;
+      --muted-400: #8e95b3;
+      --accent-600: #5f6af5;
+      --violet-600: #7b59f2;
+      --radius-xl: 22px;
+      --shadow-1: 0 10px 25px rgba(20,24,60,.25);
+      --shadow-2: 0 14px 40px rgba(20,24,60,.35);
+      --grid-gap: 18px;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text-100);
+      background: radial-gradient(1200px 800px at 10% -10%, rgba(111,124,255,.25), transparent 60%),
+                  radial-gradient(900px 700px at 110% 10%, rgba(142,107,255,.22), transparent 50%),
+                  linear-gradient(180deg, #0b1020 0%, #0a0f1f 100%);
+      min-height: 100vh;
+      background-attachment: fixed;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px clamp(16px, 3vw, 28px) 56px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .logo { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+            background: linear-gradient(145deg, var(--accent-600), var(--violet-600)); box-shadow: var(--shadow-1); }
+    .title { font-weight: 700; font-size: 20px; letter-spacing: .2px; }
+    .subtitle { color: var(--muted-400); font-size: 13px; margin-top: 2px; }
+    .toolbar { display: grid; grid-template-columns: 1fr minmax(160px, 220px) auto auto; gap: 12px; position: sticky; top: 0; z-index: 5; padding: 10px 0 18px; backdrop-filter: blur(8px); }
+    .input, .select, .btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(21,32,74,.7) 0%, rgba(14,20,48,.7) 100%);
+      color: var(--text-100);
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+      transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .input::placeholder { color: #9aa2c7; }
+    .input:focus, .select:focus { border-color: rgba(130,140,255,.7); box-shadow: 0 0 0 4px rgba(130,140,255,.18); }
+    .toggle { display: inline-flex; gap: 6px; padding: 6px; border-radius: 12px; background: linear-gradient(180deg, rgba(21,32,74,.8), rgba(14,20,48,.8)); border: 1px solid rgba(255,255,255,.08); align-items: center; justify-content: center; }
+    .toggle button { border: none; cursor: pointer; border-radius: 10px; padding: 8px 10px; color: var(--text-300); background: transparent; font-weight: 600; transition: background .15s ease, color .15s ease; }
+    .toggle button.active { background: rgba(130,140,255,.18); color: var(--text-100); }
+    .grid { display: grid; grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) ); gap: var(--grid-gap); margin-top: 12px; }
+    .card { position: relative; background: radial-gradient(120% 120% at 0% 0%, rgba(130,140,255,.08), transparent 50%), linear-gradient(180deg, var(--card-700), var(--card-800));
+            border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-xl); box-shadow: var(--shadow-1); padding: 16px; display: grid; grid-template-columns: 44px 1fr; gap: 12px; min-height: 110px; transition: transform .2s ease, box-shadow .3s ease, border-color .2s ease; cursor: pointer; overflow: hidden; isolation: isolate; }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: rgba(130,140,255,.25); }
+    .favicon { width: 44px; height: 44px; border-radius: 12px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(145deg, rgba(111,124,255,.25), rgba(142,107,255,.2)); border: 1px solid rgba(255,255,255,.08); }
+    .favicon img { width: 22px; height: 22px; }
+    .name { font-weight: 700; letter-spacing: .2px; }
+    .desc { color: var(--muted-400); font-size: 13px; margin-top: 4px; line-height: 1.35; }
+    .meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+    .tag { font-size: 11px; color: var(--text-300); background: rgba(130,140,255,.14); padding: 6px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); }
+    .list .grid { grid-template-columns: 1fr; }
+    .list .card { grid-template-columns: 44px 1fr auto; align-items: center; min-height: unset; }
+    .list .card .desc { margin: 0; }
+    .list .card .meta { margin: 0; }
+    .empty { text-align: center; opacity: .9; color: var(--muted-400); padding: 40px; border: 1px dashed rgba(255,255,255,.1); border-radius: 16px; background: linear-gradient(180deg, rgba(21,32,74,.45), rgba(14,20,48,.45)); }
+    .toast { position: fixed; right: 16px; bottom: 16px; display: grid; gap: 10px; z-index: 50; }
+    .toast-item { background: linear-gradient(180deg, rgba(21,32,74,.85), rgba(14,20,48,.85)); border: 1px solid rgba(255,255,255,.08); color: var(--text-100);
+                 padding: 12px 14px; border-radius: 12px; box-shadow: var(--shadow-1); animation: toast-in .25s ease forwards; }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .muted { color: var(--muted-400); }
+    a { color: inherit; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2l1.9 4.5L18.5 8l-4.6 1.5L12 14l-1.9-4.5L5.5 8l4.6-1.5L12 2z" fill="white" opacity=".9"/>
+            <path d="M6 14l1.1 2.6L10 18l-2.9 1-1.1 2.6-1.1-2.6L2 18l2.9-1L6 14z" fill="white" opacity=".6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="title">Notion Links Launcher</div>
+          <div class="subtitle">v2 • Caricamento da JSON</div>
+        </div>
+      </div>
+      <div class="muted" style="font-size:12px">Fonte dati: links.json su GitHub Pages</div>
+    </header>
+
+    <section class="toolbar" aria-label="Strumenti">
+      <input id="search" class="input" type="search" placeholder="Cerca link… (nome, descrizione o categoria)" aria-label="Cerca" />
+      <select id="categoryFilter" class="select" aria-label="Filtra per categoria">
+        <option value="">Tutte le categorie</option>
+      </select>
+      <div class="toggle" role="tablist" aria-label="Vista">
+        <button id="gridBtn" class="active" aria-pressed="true" title="Vista griglia">Griglia</button>
+        <button id="listBtn" aria-pressed="false" title="Vista lista">Lista</button>
+      </div>
+      <button id="refreshBtn" class="btn" type="button">Aggiorna</button>
+    </section>
+
+    <section id="cardsSection">
+      <div id="grid" class="grid" role="grid" aria-live="polite"></div>
+      <div id="emptyState" class="empty" hidden>
+        <h3 style="margin-top:0">Nessun link trovato</h3>
+        <p>Prova a cambiare la ricerca o la categoria.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    // === Config ===
+    const REMOTE_JSON = 'https://lorenzomutoph-eng.github.io/toolsandainhub/links.json';
+
+    // === Stato ===
+    /** @type {Array<{id?:string,name:string,url:string,desc?:string,category?:string,created?:number}>} */
+    let links = [];
+    const state = { query: '', category: '', view: 'grid' };
+
+    // === Helpers DOM ===
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    function toast(message) {
+      const t = document.createElement('div');
+      t.className = 'toast-item';
+      t.textContent = message;
+      $('#toast').appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(6px)'; setTimeout(() => t.remove(), 250); }, 2200);
+    }
+
+    function faviconUrl(href) {
+      try { return `https://www.google.com/s2/favicons?domain=${new URL(href).hostname}&sz=64`; } catch(e) { return null; }
+    }
+
+    // === Data ===
+    async function fetchLinks() {
+      const res = await fetch(REMOTE_JSON, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      // Normalizza: crea id/created se mancano
+      return data.map(l => ({
+        id: l.id || crypto.randomUUID(),
+        created: l.created || Date.now(),
+        ...l
+      }));
+    }
+
+    async function loadLinks() {
+      try {
+        links = await fetchLinks();
+        render();
+        toast('Link caricati dal cloud ✅');
+      } catch (e) {
+        console.error(e);
+        toast('Errore nel caricamento di links.json');
+        links = [];
+        render();
+      }
+    }
+
+    // === Filtri & Rendering ===
+    function categoriesFromLinks() {
+      const set = new Set(links.map(l => (l.category||'').trim()).filter(Boolean));
+      return Array.from(set).sort((a,b)=> a.localeCompare(b));
+    }
+
+    function populateCategoryFilter() {
+      const sel = $('#categoryFilter');
+      const current = sel.value;
+      sel.innerHTML = '<option value=\"\">Tutte le categorie</option>' +
+        categoriesFromLinks().map(c => `<option value=\"${c}\">${c}</option>`).join('');
+      if ($$('#categoryFilter option').some(o => o.value === current)) sel.value = current;
+    }
+
+    function filteredLinks() {
+      const q = state.query.toLowerCase();
+      const cat = state.category.toLowerCase();
+      return links.filter(l => {
+        const hay = `${l.name} ${l.desc||''} ${l.category||''}`.toLowerCase();
+        const matchQ = !q || hay.includes(q);
+        const matchC = !cat || (l.category||'').toLowerCase() === cat;
+        return matchQ && matchC;
+      });
+    }
+
+    function render() {
+      const container = $('#grid');
+      container.innerHTML = '';
+
+      const items = filteredLinks();
+      $('#emptyState').hidden = items.length > 0;
+
+      items.forEach(l => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.dataset.id = l.id;
+
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.iconbtn')) return;
+          window.open(l.url, '_blank', 'noopener');
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.open(l.url, '_blank', 'noopener');
+          }
+        });
+
+        const fav = faviconUrl(l.url);
+        card.innerHTML = `
+          <div class="favicon">${fav ? `<img src="${fav}" alt="">` : ''}</div>
+          <div>
+            <div class="name">${escapeHTML(l.name)}</div>
+            ${l.desc ? `<div class="desc">${escapeHTML(l.desc)}</div>` : ''}
+            <div class="meta">${l.category ? `<span class="tag">${escapeHTML(l.category)}</span>` : ''}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.body.classList.toggle('list', state.view === 'list');
+      populateCategoryFilter();
+    }
+
+    // === Events ===
+    $('#search').addEventListener('input', (e) => { state.query = e.target.value; render(); });
+    $('#categoryFilter').addEventListener('change', (e) => { state.category = e.target.value; render(); });
+    $('#gridBtn').addEventListener('click', () => { state.view = 'grid'; $('#gridBtn').classList.add('active'); $('#listBtn').classList.remove('active'); render(); });
+    $('#listBtn').addEventListener('click', () => { state.view = 'list'; $('#listBtn').classList.add('active'); $('#gridBtn').classList.remove('active'); render(); });
+    $('#refreshBtn').addEventListener('click', () => { loadLinks(); });
+
+    // === Utils ===
+    function escapeHTML(str) { return String(str).replace(/[&<>"]+/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s])); }
+
+    // === Init ===
+    loadLinks();
+  </script>
+</body>
+</html>
