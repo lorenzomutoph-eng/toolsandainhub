@@ -1,0 +1,254 @@
+[
+  {
+    "name": "YouTube Studio",
+    "url": "https://studio.youtube.com",
+    "desc": "Gestione canale YouTube",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "TikTok Creative Center",
+    "url": "https://www.tiktok.com/business/creativecenter/",
+    "desc": "Trend e ispirazione TikTok",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Instagram",
+    "url": "https://www.instagram.com",
+    "desc": "Profili e reels",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Facebook Creator Studio",
+    "url": "https://business.facebook.com/creatorstudio",
+    "desc": "Gestione pagine Facebook",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Twitter/X",
+    "url": "https://x.com",
+    "desc": "Social attualità e community",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "LinkedIn",
+    "url": "https://www.linkedin.com",
+    "desc": "Distribuzione B2B",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Discord",
+    "url": "https://discord.com",
+    "desc": "Community e live audio/video",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Telegram",
+    "url": "https://web.telegram.org",
+    "desc": "Canali broadcast",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Spotify for Podcasters",
+    "url": "https://podcasters.spotify.com",
+    "desc": "Distribuzione podcast",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Anchor",
+    "url": "https://anchor.fm",
+    "desc": "Pubblicazione podcast",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Apple Podcasts Connect",
+    "url": "https://podcastsconnect.apple.com",
+    "desc": "Distribuzione su Apple Podcasts",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "Google Podcasts Manager",
+    "url": "https://podcastsmanager.google.com",
+    "desc": "Gestione podcast su Google",
+    "category": "Social & Distribuzione"
+  },
+  {
+    "name": "ChatGPT",
+    "url": "https://chat.openai.com",
+    "desc": "Scrittura, script, idee",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Claude",
+    "url": "https://claude.ai",
+    "desc": "AI conversazionale",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Gemini",
+    "url": "https://gemini.google.com",
+    "desc": "AI di Google",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Perplexity",
+    "url": "https://www.perplexity.ai",
+    "desc": "AI + search",
+    "category": "AI Creative"
+  },
+  {
+    "name": "MidJourney",
+    "url": "https://www.midjourney.com",
+    "desc": "Generazione immagini via Discord",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Stable Diffusion Online",
+    "url": "https://stablediffusionweb.com",
+    "desc": "AI immagini",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Leonardo AI",
+    "url": "https://leonardo.ai",
+    "desc": "Concept art e generazione immagini",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Runway ML",
+    "url": "https://runwayml.com",
+    "desc": "Video editing AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Pika Labs",
+    "url": "https://pika.art",
+    "desc": "Generazione video AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Kaiber",
+    "url": "https://kaiber.ai",
+    "desc": "Trasformare audio in video AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "ElevenLabs",
+    "url": "https://elevenlabs.io",
+    "desc": "Voci sintetiche realistiche",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Synthesia",
+    "url": "https://www.synthesia.io",
+    "desc": "Avatar AI parlanti",
+    "category": "AI Creative"
+  },
+  {
+    "name": "HeyGen",
+    "url": "https://www.heygen.com",
+    "desc": "AI video con avatar",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Descript",
+    "url": "https://www.descript.com",
+    "desc": "Editing audio/video via AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Auphonic",
+    "url": "https://auphonic.com",
+    "desc": "Miglioramento audio automatico",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Murf AI",
+    "url": "https://murf.ai",
+    "desc": "Voice-over AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Podcastle",
+    "url": "https://podcastle.ai",
+    "desc": "Podcasting AI based",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Canva",
+    "url": "https://www.canva.com",
+    "desc": "Grafiche social con AI integrata",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Figma",
+    "url": "https://www.figma.com",
+    "desc": "Design collaborativo",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Remove.bg",
+    "url": "https://remove.bg",
+    "desc": "Rimozione sfondi AI",
+    "category": "AI Creative"
+  },
+  {
+    "name": "Notion",
+    "url": "https://www.notion.so",
+    "desc": "Workspace",
+    "category": "Produttività"
+  },
+  {
+    "name": "Miro",
+    "url": "https://miro.com",
+    "desc": "Lavagna collaborativa",
+    "category": "Produttività"
+  },
+  {
+    "name": "Calendly",
+    "url": "https://calendly.com",
+    "desc": "Scheduling appuntamenti",
+    "category": "Produttività"
+  },
+  {
+    "name": "Google Drive",
+    "url": "https://drive.google.com",
+    "desc": "Cloud file",
+    "category": "Produttività"
+  },
+  {
+    "name": "Dropbox",
+    "url": "https://www.dropbox.com",
+    "desc": "File sharing",
+    "category": "Produttività"
+  },
+  {
+    "name": "WeTransfer",
+    "url": "https://wetransfer.com",
+    "desc": "Invio file veloce",
+    "category": "Produttività"
+  },
+  {
+    "name": "Zoom",
+    "url": "https://zoom.us",
+    "desc": "Meeting online",
+    "category": "Produttività"
+  },
+  {
+    "name": "Tokaudit Script",
+    "url": "https://www.script.tokaudit.io/",
+    "desc": "Scaricare script online",
+    "category": "Download & Risorse"
+  },
+  {
+    "name": "Envato Elements",
+    "url": "https://elements.envato.com/",
+    "desc": "Immagini, video e risorse creative",
+    "category": "Download & Risorse"
+  },
+  {
+    "name": "Pasty",
+    "url": "https://pasty.info/",
+    "desc": "Scaricare video da RaiPlay",
+    "category": "Download & Risorse"
+  }
+]
