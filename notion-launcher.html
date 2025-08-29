@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launcher — Tool & Links</title>
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#151821;
+      --text:#e8ecf1;
+      --muted:#9aa3af;
+      --accent:#4f46e5;
+      --ring:#2b2f3a;
+      --radius:16px;
+      --gap:14px;
+      --shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7f7fb;
+        --card:#ffffff;
+        --text:#0f172a;
+        --muted:#576071;
+        --accent:#4338ca;
+        --ring:#e5e7eb;
+        --shadow: 0 6px 20px rgba(0,0,0,.08);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(79,70,229,.12), transparent 40%), var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:1100px;margin-inline:auto;padding:28px}
+    header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;justify-content:space-between;margin-bottom:16px}
+    .title{font-size:22px;font-weight:700;letter-spacing:.2px}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    input[type="search"]{
+      appearance:none;-webkit-appearance:none;
+      background:var(--card);
+      border:1px solid var(--ring);
+      border-radius:12px;
+      padding:10px 12px;
+      color:var(--text);
+      min-width:220px;
+      outline:none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    input[type="search"]::placeholder{color:var(--muted)}
+    .chipbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .chip{
+      padding:6px 10px;border:1px solid var(--ring);
+      border-radius:999px;background:transparent;color:var(--muted);
+      cursor:pointer;font-size:13px
+    }
+    .chip.active{background:var(--accent);border-color:var(--accent);color:white}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--gap);
+      margin-top:16px
+    }
+    a.card{
+      display:block;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--card);
+      border:1px solid var(--ring);
+      border-radius: var(--radius);
+      padding:14px;
+      text-decoration:none;color:inherit;
+      box-shadow: var(--shadow);
+      transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+      position:relative;overflow:hidden
+    }
+    a.card:hover{transform: translateY(-2px); border-color: rgba(79,70,229,.5); box-shadow: 0 10px 24px rgba(0,0,0,.18)}
+    .icon{
+      width:44px;height:44px;border-radius:12px;
+      display:grid;place-items:center;
+      background: rgba(79,70,229,.12); border:1px solid rgba(79,70,229,.25);
+      font-size:22px;flex:0 0 auto;overflow:hidden
+    }
+    .favicon{width:22px;height:22px}
+    .row{display:flex;align-items:center;gap:12px}
+    .name{font-weight:700;margin-top:10px}
+    .meta{color:var(--muted);font-size:13px;margin-top:2px}
+    .open{position:absolute;right:10px;top:10px;font-size:12px;color:var(--muted)}
+    .footer{margin-top:18px;color:var(--muted);font-size:12px}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">🚀 Launcher — Tool & Siti</div>
+      <div class="controls">
+        <input id="q" type="search" placeholder="Cerca per nome, categoria o tag…" />
+      </div>
+      <div id="chipbar" class="chipbar" aria-label="Filtri categoria"></div>
+    </header>
+
+    <div id="grid" class="grid" aria-live="polite"></div>
+    <div class="footer">Suggerimento: per modificare i link, apri il file e aggiorna la lista <code>LINKS</code> nel codice.</div>
+  </div>
+
+  <!-- ✅ MODIFICA QUI: aggiungi/rimuovi i tuoi link -->
+  <script>
+    const LINKS = [
+      { name:"Google Drive", url:"https://drive.google.com", category:"Lavoro", icon:"🟦", notes:"File e cartelle", tags:["cloud","docs"] },
+      { name:"Gmail", url:"https://mail.google.com", category:"Comunicazione", icon:"✉️", notes:"Inbox principale", tags:["email"] },
+      { name:"YouTube Studio", url:"https://studio.youtube.com", category:"Creator", icon:"🎬", notes:"Gestione canale", tags:["video","analytics"] },
+      { name:"TikTok Creative Center", url:"https://www.tiktok.com/business/creativecenter/", category:"Creator", icon:"🎛️", notes:"Trend e ispirazioni", tags:["tiktok","trend"] },
+      { name:"Instagram", url:"https://www.instagram.com", category:"Social", icon:"📸", notes:"Profilo IG", tags:["social"] },
+      { name:"Canva", url:"https://www.canva.com", category:"Design", icon:"🎨", notes:"Grafiche e post", tags:["design"] },
+      { name:"CapCut Web", url:"https://www.capcut.com", category:"Editing", icon:"✂️", notes:"Montaggio veloce", tags:["video","editing"] },
+      { name:"ChatGPT", url:"https://chat.openai.com", category:"AI", icon:"🤖", notes:"Idee e script", tags:["ai","writing"] },
+      { name:"Google Calendar", url:"https://calendar.google.com", category:"Agenda", icon:"🗓️", notes:"Pianificazione", tags:["calendar"] },
+      { name:"Notion", url:"https://www.notion.so", category:"Workspace", icon:"📒", notes:"Homepage workspace", tags:["notion"] },
+    ];
+
+    // ---- Utility
+    const byId = (id)=>document.getElementById(id);
+    const grid = byId("grid");
+    const q = byId("q");
+    const chipbar = byId("chipbar");
+
+    function domainFromUrl(url){
+      try{ return new URL(url).hostname; }catch(e){ return ""; }
+    }
+
+    function renderCards(items){
+      grid.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      items.forEach(item => {
+        const a = document.createElement("a");
+        a.className = "card";
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+
+        const row = document.createElement("div");
+        row.className = "row";
+
+        const icon = document.createElement("div");
+        icon.className = "icon";
+        if(item.icon){
+          icon.textContent = item.icon;
+        }else{
+          const img = document.createElement("img");
+          img.className = "favicon";
+          img.alt = "";
+          img.src = "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(domainFromUrl(item.url)) + "&sz=64";
+          icon.appendChild(img);
+        }
+
+        const labelWrap = document.createElement("div");
+        const name = document.createElement("div");
+        name.className = "name";
+        name.textContent = item.name;
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = item.notes || item.category || "";
+
+        labelWrap.appendChild(name);
+        labelWrap.appendChild(meta);
+
+        const open = document.createElement("div");
+        open.className = "open";
+        open.textContent = "↗︎";
+
+        row.appendChild(icon);
+        row.appendChild(labelWrap);
+        a.appendChild(row);
+        a.appendChild(open);
+
+        a.dataset.category = (item.category || "").toLowerCase();
+        a.dataset.tags = (item.tags || []).map(t=>t.toLowerCase()).join(",");
+        a.dataset.name = (item.name || "").toLowerCase();
+
+        frag.appendChild(a);
+      });
+      grid.appendChild(frag);
+    }
+
+    function buildChips(items){
+      const cats = Array.from(new Set(items.map(i => (i.category||"Senza categoria"))));
+      chipbar.innerHTML = "";
+      const make = (label, value)=>{
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (value===null ? " active" : "");
+        b.textContent = label;
+        b.dataset.value = value ?? "";
+        b.addEventListener("click", ()=>{
+          document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+          b.classList.add("active");
+          filter();
+        });
+        return b;
+      };
+      chipbar.appendChild(make("Tutte", null));
+      cats.sort(Intl.Collator("it").compare).forEach(c=>chipbar.appendChild(make(c, c)));
+    }
+
+    function filter(){
+      const term = (q.value || "").trim().toLowerCase();
+      const activeChip = chipbar.querySelector(".chip.active");
+      const chipVal = activeChip ? (activeChip.dataset.value || "") : "";
+      const cards = grid.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const name = card.dataset.name;
+        const cat = card.dataset.category;
+        const tags = card.dataset.tags;
+        const matchesText = !term || name.includes(term) || tags.includes(term) || cat.includes(term);
+        const matchesCat = !chipVal || (cat === chipVal.toLowerCase());
+        card.classList.toggle("hidden", !(matchesText && matchesCat));
+      });
+    }
+
+    // Init
+    renderCards(LINKS);
+    buildChips(LINKS);
+    q.addEventListener("input", filter);
+  </script>
+</body>
+</html>
